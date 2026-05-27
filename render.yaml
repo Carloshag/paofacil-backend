@@ -1,0 +1,30 @@
+# Render Blueprint para implantação automática do PãoFácil Backend 🍞✨
+services:
+  - type: web
+    name: paofacil-backend
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    # Nota: O uso de disco persistente exige o plano "Starter" da Render.
+    # Caso queira rodar 100% no plano gratuito, basta excluir este arquivo da sua pasta
+    # e criar o serviço manualmente como "Web Service" no painel da Render.
+    disk:
+      name: paofacil-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: DATABASE_PATH
+        value: /data/database.sqlite
+      - key: UPLOADS_PATH
+        value: /data/uploads
+      - key: JWT_SECRET
+        generateValue: true # A Render gera um JWT Token seguro automaticamente
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      # As chaves a seguir devem ser digitadas manualmente no painel por segurança
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
